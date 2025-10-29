@@ -65,6 +65,17 @@ class Salix {
 					this.handle({message: this.makeMessage(h, data)});	
 				}).observe(this.fileHandles[args.key]);
 				return () => obs.disconnect();
+			},
+			observeVSFile: (h, args) => {
+				const obs = window.addEventListener("message", (event) => {
+					if (event.data.command === 'fileChanged' && event.data.file === args.key) {
+						const message = event.data;
+						var data = {type: 'string', value: message.content || ''};
+						this.handle({message: this.makeMessage(h, data)}); 
+					}
+				});
+				window.parent.postMessage({command: 'addFileToWatch', file: args.key}, "*");
+				return () => obs.disconnect();
 			}
 		};
 

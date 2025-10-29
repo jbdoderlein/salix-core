@@ -188,7 +188,7 @@ tuple[list[Cmd], &T] initialize(&T() init, void(&T) view) {
 
 @doc{Render turns void returning views for a model &T into an Node node.}  
 Node render(&T model, void(&T) block) {
-  push([]); 
+  push([]);
   block(model);
   // TODO: assert top is not empty and size == 1
   return pop()[0];
@@ -270,6 +270,10 @@ Sub timeEvery(Msg(int) int2msg, int interval)
 
 Sub observeFile(Msg(list[FSChange]) recs2msg, str key)
   = subscription("observeFile", encode(recs2msg), args=("key": key));
+
+
+Sub observeVSFile(Msg(str) str2msg, loc key)
+  = subscription("observeVSFile", encode(str2msg), args=("key": key));
 
 alias Subs[&T] = list[Sub](&T);
 
