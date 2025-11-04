@@ -11,10 +11,12 @@ module salix::demo::shop::Shop
 import salix::HTML;
 import salix::App;
 import salix::Index;
+import salix::util::Debug;
 
 import String;
 import List;
 import util::UUID;
+
 
 // This app is based on: https://www.mendix.com/tech-blog/making-react-reactive-pursuit-high-performing-easily-maintainable-react-apps/
 
@@ -44,7 +46,7 @@ Model init() = <
   when loc bunnyId := uuid();
 
 SalixApp[Model] shopApp(str id = "shopDemo") 
-  = makeApp(id, init, withIndex("Shop", id, shopDemoView, css = ["/salix/demo/shop/test.css"]), update); 
+  = makeApp(id, init, withIndex("Shop", id, shopDemoView, css = ["/salix/demo/shop/test.css"], scripts = ["/salix/demo/shop/index.js"]), update); 
 
 App[Model] shopWebApp()
   = webApp(
@@ -128,8 +130,8 @@ void shopDemoView(Model m) {
      tbody(() {
       tr(() {
         td(colspan(2), () {
-          button(onClick(updateSome()), "update some items");
-          button(onClick(createLots()), "create a lot of items");
+          button(class("ot-msg"), onClick(updateSome()), "update some items");
+          button(class("ot-msg"), onClick(createLots()), "create a lot of items");
         });
       });
       tr(() {
@@ -149,10 +151,10 @@ void shopDemoView(Model m) {
 void articlesView(Model m) {
   div(() {
     p("Article name ");
-    input(\type("text"), \value(m.newName), onInput(newName));
+    input(class("ot-model"), \type("text"), \value(m.newName), onInput(newName));
     p("Price (a number) ");
-    input(\type("text"), \value("<m.newPrice>"), onInput(newPrice));
-    button(onClick(newArticle()), "new article");
+    input(class("ot-model"), \type("text"), \value("<m.newPrice>"), onInput(newPrice));
+    button(class("ot-msg"), onClick(newArticle()), "new article");
     ul(() {
       for (int i <- [0..size(m.articles)]) {
         articleView(m.articles[i], i);
@@ -163,9 +165,9 @@ void articlesView(Model m) {
 
 void articleView(Article a, int i) {
   li(() {
-    span(a.name);
-    button(onClick(addToCart(i)), "\>\>");
-    span(class("price"), "€ <a.price>"); 
+    span(class("ot-model"), a.name);
+    button(class("ot-msg"), onClick(addToCart(i)), "\>\>");
+    span(classList(<"price",true>, <"ot-model",true>), "€ <a.price>");
   });
 }
 
@@ -174,13 +176,28 @@ void cartView(Model m) {
    ul(() {
      for (int i <- [0..size(m.cart)]) {
        li(() {
-         button(onClick(removeFromCart(i)), "\<\<");
-         span(findArticle(m.cart[i].id, m).name);
-         span(class("price"), "<m.cart[i].amount>x"); 
+         button(class("ot-msg"), onClick(removeFromCart(i)), "\<\<");
+         span(class("ot-model"), findArticle(m.cart[i].id, m).name);
+         span(classList(<"price",true>, <"ot-model",true>), "<m.cart[i].amount>x");
        });
      }
    });
    real total = ( 0.0 | it + e.amount * findArticle(e.id, m).price | Entry e <- m.cart);
-   span("Total: € <total>");
+   span(class("ot-model"), "Total: € <total>");
  });
 }
+
+// Debugging infrastructure
+
+void myDebugView(DebugModel[Model] m) {
+  debugView(m, shopDemoView);
+}
+
+App[Model] shopWebAppDebug()
+  = debug(
+      "shopDemoDebug", 
+      init, 
+      myDebugView, 
+      update, 
+      |project://salix/src/main/rascal|
+    ); 
