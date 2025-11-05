@@ -16,7 +16,7 @@ App[Model] filesWebApp()
 
 
 
-void launching() = startVSSalix(|http://localhost:8080|, filesWebApp());
+void launching() = standaloneVSCode(|http://localhost:8080|, filesWebApp());
 
 list[Sub] subs(Model m) = [observeVSFile(
   fileChange, |cwd://salix-core/src/main/rascal/salix/demo/basic/VSFiles.rsc|) ];

@@ -30,7 +30,7 @@ list[Sub] subs(Model m) = [observeVSFile(
   fileChange, |project://salix-core/src/main/rascal/salix/demo/control/ZeroLive.rsc|) ];
 
 
-void launching() = startVSSalix(|http://localhost:8080|, zeroWebApp());
+void launching() = standaloneVSCode(|http://localhost:8080|, zeroWebApp());
 
 alias Model = tuple[int count];
 

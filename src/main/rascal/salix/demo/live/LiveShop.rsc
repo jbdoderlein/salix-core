@@ -56,7 +56,7 @@ App[Model] shopWebApp()
       |project://salix/src/main/rascal|
     ); 
 
-void launch() = startVSSalix(|http://localhost:8080|, shopWebApp());
+void launch() = standaloneVSCode(|http://localhost:8080|, shopWebApp());
 
 data Msg
   = editName(int idx, str name)

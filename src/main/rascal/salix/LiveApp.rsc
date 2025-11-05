@@ -111,7 +111,7 @@ tuple[void () serve, void () stop] standalone(loc host, App[&T] webapp)
         util::Webserver::shutdown(host); 
       } >;
 
-void startVSSalix(loc host, App[&T] webapp) {
+void standaloneVSCode(loc host, App[&T] webapp) {
   util::Webserver::serve(host, webapp.callback); 
   println("Started serving Salix VS webapp at salix://<host>/<webapp.id>/");
 }

@@ -43,7 +43,7 @@ App[Model] liveWebApp()
       |project://salix/src/main/rascal|
     );
 
-void() launching() = startVSSalix(|http://localhost:8080|, liveWebApp());
+void() launching() = standaloneVSCode(|http://localhost:8080|, liveWebApp());
 
 alias Model = tuple[int current, list[tuple[int count, str code]] hist];
 
