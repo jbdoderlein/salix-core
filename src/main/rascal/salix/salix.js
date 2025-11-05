@@ -68,7 +68,7 @@ class Salix {
 			},
 			observeVSFile: (h, args) => {
 				const obs = window.addEventListener("message", (event) => {
-					if (event.data.command === 'fileChanged' && event.data.file === args.key) {
+					if (event.data.command === 'fileChanged') { // && event.data.file === args.key would be great but path conversion is nightmare
 						const message = event.data;
 						var data = {type: 'string', value: message.content || ''};
 						this.handle({message: this.makeMessage(h, data)}); 
