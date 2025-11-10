@@ -7,6 +7,10 @@ import salix::Core;
 
 import util::Maybe;
 import IO;
+import String;
+import List;
+import util::Random;
+import util::Math;
 
 SalixApp[Model] filesApp(str id = "root") 
   = makeApp(id, init, withIndex("Files", id, view), update, subs = subs);
@@ -25,20 +29,21 @@ alias Model = str;
 
 Model init() = "";
 
-data Msg 
-    = fileChange(str)
-    ;
-
-
+data Msg =  useless() | fileChange(str);
 
 Model update(Msg msg, Model m) {
   switch (msg) {
-    case fileChange(str fileContent): m = fileContent;
+    case fileChange(str fileContent): {
+      println("File changed, new content:\n<fileContent>");
+      m = fileContent;
+      int rdline = abs(randomValue(#int)) % (size(split("\n",m)));
+      do(highlightLine(useless(), "cwd:/salix-core/src/main/rascal/salix/demo/basic/VSFiles.rsc", rdline));
+    }
   }
   return m;
 }
 
 void view(Model m) {
-  h2("File content viewer");
-  div("Current file content: <m>");
+  h2(id("main"), "File content viewer");
+  div("Current file content : <m>");
 }

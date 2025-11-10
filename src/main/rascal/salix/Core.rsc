@@ -317,6 +317,9 @@ Cmd setFocus(Msg() f, str id)
 Cmd pickFile(Msg(FSHandle) f, str key)
   = command("pickFile", encode(f), args=("key": key));
 
+Cmd highlightLine(Msg f, str key, int line)
+  = command("highlightLine", encode(f), args = ("key": key, "line": line));
+
 /*
  * Event decoders
  */

@@ -87,6 +87,13 @@ class Salix {
 						return {type: 'fshandle', kind: fh.kind, name: fh.name};	
 					});
 				},
+				highlightLine: async args => {
+					console.log('highlightLine', args);
+					const key = args.key;
+					const line = args.line;
+					window.parent.postMessage({command: 'highlightLine', file: key, line: line}, "*");
+					return {type: 'nothing'};
+				},
 				random: async args => {
 					var to = args.to;
 					var from = args.from;
