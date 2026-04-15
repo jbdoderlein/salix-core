@@ -37,7 +37,8 @@ Model update(Msg msg, Model m) {
       println("File changed, new content:\n<fileContent>");
       m = fileContent;
       int rdline = abs(randomValue(#int)) % (size(split("\n",m)));
-      do(highlightLine(useless(), "cwd:/salix-core/src/main/rascal/salix/demo/basic/VSFiles.rsc", rdline));
+      // This sad but we need to have JS convertor for Rascal loc
+      do(highlightLine(useless(), "file:///home/jbdod/CWI/salix-core/src/main/rascal/salix/demo/basic/VSFiles.rsc", rdline));
     }
   }
   return m;
